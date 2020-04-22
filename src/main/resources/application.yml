@@ -1,0 +1,66 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: ReservationSystem
+          uri: http://localhost:8081
+          predicates:
+            - Path=/reservationSystems/** 
+        - id: LibrarySystem
+          uri: http://localhost:8082
+          predicates:
+            - Path=/librarySystems/** 
+        - id: PaymentSystem
+          uri: http://localhost:8083
+          predicates:
+            - Path=/paymentSystems/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: ReservationSystem
+          uri: http://ReservationSystem:8080
+          predicates:
+            - Path=/reservationSystems/** 
+        - id: LibrarySystem
+          uri: http://LibrarySystem:8080
+          predicates:
+            - Path=/librarySystems/** 
+        - id: PaymentSystem
+          uri: http://PaymentSystem:8080
+          predicates:
+            - Path=/paymentSystems/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
